@@ -1,10 +1,11 @@
 bl_info = {
-    "name":         "Apply modifiers for object with shape keys",
+    "name":         "Apply Modifiers for Object with Shape Keys",
+    "description":  "Allows to apply modifiers for objects with Shape Keys.",
     "author":       "Przemysław Bągard, Fin O'Riordan, Jean da Costa, Lucas Falcao",
     "blender":      (2,80,0),
     "version":      (0,1,1),
     "location":     "3D View",
-    "description":  "Allows to apply modifiers for objects with Shape Keys.",
+    "wiki_url": "https://github.com/lucasfalcao3d/apply-modifiers-w-shape-keys",
     "category":     "Edit"
 }
 
