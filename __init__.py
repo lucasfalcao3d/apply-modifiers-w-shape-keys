@@ -1,6 +1,6 @@
 bl_info = {
     "name":         "Apply modifiers for object with shape keys",
-    "author":       "Przemysław Bągard, Fin O'Riordan",
+    "author":       "Przemysław Bągard, Fin O'Riordan, Jean da Costa, Lucas Falcao",
     "blender":      (2,80,0),
     "version":      (0,1,1),
     "location":     "3D View",
