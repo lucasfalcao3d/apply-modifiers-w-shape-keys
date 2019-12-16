@@ -3,9 +3,9 @@ bl_info = {
     "author":       "Przemysław Bągard, Fin O'Riordan",
     "blender":      (2,80,0),
     "version":      (0,1,1),
-    "location":     "Context menu",
-    "description":  "Apply modifier and remove from the stack for object with shape keys (Pushing 'Apply' button in 'Object modifiers' tab result in an error 'Modifier cannot be applied to a mesh with shape keys').",
-    "category":     "Object"
+    "location":     "3D View",
+    "description":  "Allows to apply modifiers for objects with Shape Keys.",
+    "category":     "Edit"
 }
 
 import bpy, math
