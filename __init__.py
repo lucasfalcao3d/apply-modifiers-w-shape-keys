@@ -22,19 +22,13 @@ from bpy.props import *
 # - Delete old object
 # - Restore name of object and object data
 
-def find_collection(context, item):
-    collections = item.users_collection
-    if len(collections) > 0:
-        return collections[0]
-    return context.scene.collection
+def ShowMessageBox(message="", title="Message Box", icon='INFO'):
+    # Simple display message utility
 
-def make_collection(collection_name, parent_collection):
-    if collection_name in bpy.data.collections:
-        return bpy.data.collections[collection_name]
-    else:
-        new_collection = bpy.data.collections.new(collection_name)
-        parent_collection.children.link(new_collection)
-        return new_collection
+    def draw(self, context):
+        self.layout.label(text=message)
+
+    bpy.context.window_manager.popup_menu(draw, title=title, icon=icon)
 
 def apply_modifiers(context, modifierName):
     list_names = []
@@ -69,18 +63,18 @@ def apply_modifiers(context, modifierName):
         # last deleted shape doesn't change object shape
         context.object.active_shape_key_index = 0
         bpy.ops.object.shape_key_remove()
-        # time to apply modifiers
-        bpy.ops.object.modifier_apply(apply_as='DATA', modifier=modifierName)
+        try:
+            bpy.ops.object.modifier_apply(apply_as='DATA', modifier=modifierName)
+        except RuntimeError:
+            ShowMessageBox("Modifer is disabled, skipping apply", "Report: Error ", 'ERROR')
 
         if i>0:
             bpy.context.object.name = f'{basename}_{list_names[i]}'
             # time to apply modifiers
-            bpy.ops.object.modifier_apply(apply_as='DATA', modifier=modifierName)
-            old_collection = find_collection(bpy.context, o)
-            new_collection = make_collection(f'{basename} Shapekeys', old_collection)
-            new_collection.objects.link(o)
-            old_collection.objects.unlink(o)
-
+            try:
+                bpy.ops.object.modifier_apply(apply_as='DATA', modifier=modifierName)
+            except RuntimeError:
+                ShowMessageBox("Modifer is disabled, skipping apply", "Report: Error ", 'ERROR')
 
     bpy.ops.object.select_all(action='DESELECT')
     context.view_layer.objects.active = list[0]
@@ -103,6 +97,7 @@ def apply_modifiers(context, modifierName):
     context.view_layer.objects.active = list[0]
     context.view_layer.objects.active.select_set(state=True)
     return context.view_layer.objects.active
+
 
 class AWS_OT_operator(bpy.types.Operator):
     bl_idname = "aws.operator"
@@ -138,21 +133,11 @@ class AWS_PT_panel(bpy.types.Panel):
     bl_region_type = "UI"
     bl_category = "Edit"
 
-
-    # def draw(self, context):
-    #     self.layout.operator("AWS_OT_operator")
-
     def draw(self, context):
         layout = self.layout
-        obj = context.object
         row = layout.row()
         row.operator("aws.operator", icon="SHAPEKEY_DATA")
         row.scale_y = 1.5
-
-
-# def menu_func(self, context):
-#     self.layout.operator("AWS_OT_operator",
-#         text="Apply Modifiers w/ Shape Keys")
 
 classes = (AWS_OT_operator, AWS_PT_panel)
 
