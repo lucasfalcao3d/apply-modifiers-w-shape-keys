@@ -8,3 +8,8 @@ The add-on was originally made by [Przemysław Bągard](https://github.com/przem
 ![Image description](https://pictshare.net/ejt8za.png)
 
 
+## Install
+
+Download the zip and install the add-on. 
+
+
